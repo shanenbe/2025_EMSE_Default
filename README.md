@@ -18,3 +18,5 @@ ansonsten die Taste 2.
 - In der Datei "experiment.js" steht der Code, der das Experiment ausmacht. Die Kommentare in der Datei sollten helfen zu verstehen, wo Code angefasst werden muss.
 
 Am Ende des Experiments wird eine csv-Datei ausgegeben, die in der ersten Spalte den Namen der ersten Variablen hat. Die letzte Spalte enthält die gemessene Zeit für jede Aufgabe (Zeit von der Anzeige bis zum Drücken der richtigen Taste)
+
+Wenn ihr an euch Daten gesammlt habt, diese in Jamovi laden, dort eine ANOVA durchführen (abhängige Variable ist die Zeit, unabhängige Variable eure erste Variable).
