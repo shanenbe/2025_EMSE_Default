@@ -35,51 +35,65 @@ let experiment_configuration_function = (writer) => { return {
                  die unterschiedlichen Werte stehen als List in den Treatments
                  Im ersten Experiment hat man normalerweise nur eine Variable mit 2 Treatments (Werte für die Variable)
          */
-        { variable: "MyVariable",  treatments: ["dummy", "non-dummy"]},
+        { variable: "Highlighting",  treatments: ["On", "Off"]}
     ],
 
     /* ToDo: Hier gebe ich an, wie oft ich jede Treatmentkombination im Experiment testen möchte */
-    repetitions: 100,
+    repetitions: 5,
 
     /* ToDo: Hier gebe ich an, welche "Art" das Experiment ist. Ich gehe hier davon aus, dass es ein Experiment ist,dass
     *        darauf wartet, dass der Teilnehmer die Taste "0" oder "1" drückt
     *  */
-    measurement: Nof1.Reaction_time(Nof1.keys(["0", "1"])),
+    measurement: Nof1.Reaction_time(Nof1.keys(["1"])),
 
     task_configuration: (task) => {
 
+        let nouns = new Nof1["Nouns"];
+        let verbs = new Nof1["Verbs"];
+
+        let random_noun = nouns.words[Nof1.new_random_integer(nouns.words.length)];
+        let random_verb = verbs.words[Nof1.new_random_integer(verbs.words.length)];
+
         task.do_print_task = () => {
 
-            // So erzeuge ich eine Zufallszahl (NICHT "default"-Code a la StackOverflow verwenden!
-            let random_int_from_0_to_excluding_10 = Nof1.new_random_integer(10);
 
-            // Ausgabebildschirm wird gelöscht
+            //
+            // // So erzeuge ich eine Zufallszahl (NICHT "default"-Code a la StackOverflow verwenden!
+            // let random_int_from_0_to_excluding_10 = Nof1.new_random_integer(10);
+            //
+            // // Ausgabebildschirm wird gelöscht
             writer.clear_stage();
 
-            // Guck, weist den Wert der ersten Experiment-Variablen (task.treatment_combination.treatment_combination[0])
-            // der lokalen Variablen treatment_of_variable_MyVariable zu.
-            let treatment_of_variable_MyVariable = task.treatment_combination.treatment_combination[0].value;
+            // // Guck, weist den Wert der ersten Experiment-Variablen (task.treatment_combination.treatment_combination[0])
+            // // der lokalen Variablen treatment_of_variable_MyVariable zu.
+            // let treatment_of_variable_MyVariable = task.treatment_combination.treatment_combination[0].value;
+            //
+            // // Testet, ob Wert von MyVariable den Wert "dummy" hat
+            // if( treatment_of_variable_MyVariable =="dummy") {
+            //     writer.print_html_on_stage("Hello, world + random number: " + random_int_from_0_to_excluding_10);
+            //     writer.print_html_on_stage("<h1>Mal reinen HTMLcode reingeschrieben</h1>");
+            //     task.expected_answer = "1";
+            // } else {
+            //     writer.print_html_on_stage("Exit world + random number: " + random_int_from_0_to_excluding_10);
+            //     task.expected_answer = "0";
+            // }
 
-            // Testet, ob Wert von MyVariable den Wert "dummy" hat
-            if( treatment_of_variable_MyVariable =="dummy") {
-                writer.print_html_on_stage("Hello, world + random number: " + random_int_from_0_to_excluding_10);
-                writer.print_html_on_stage("<h1>Mal reinen HTMLcode reingeschrieben</h1>");
-                task.expected_answer = "1";
-            } else {
-                writer.print_html_on_stage("Exit world + random number: " + random_int_from_0_to_excluding_10);
-                task.expected_answer = "0";
+            if(task.treatment_combination.treatment_combination[0].value == "On") {
+                writer.print_html_on_stage(
+                    "&nbsp;".repeat(parseInt(task.treatment_combination.treatment_combination[1].value) * 15) + "<button type=\"button\">"  +
+                    task.treatment_combination.treatment_combination[0].value + "</button>")
+
+            } else  {
+
             }
+
         };
 
         /* ToDo: Legt fest, wann eine Aufgabe als bearbeitet angesehen wird. Die Variable "answer" ist dabei die Taste, die gedrückt wurde.
                  Falls es für das Experiment egal ist, einfach true zurückgeben.
         *  */
         task.accepts_answer_function = (answer) => {
-            if (answer == task.expected_answer) {
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         }
 
         /**
